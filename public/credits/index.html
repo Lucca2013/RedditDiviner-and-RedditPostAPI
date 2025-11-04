@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reddit post diviner</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: rgb(255, 69, 0);
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        overflow: hidden;
+      }
+
+      .container {
+        text-align: center;
+        color: #fff;
+        max-width: 90%;
+        width: 600px;
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        border-radius: 15px;
+        animation: fadeInUp 0.8s forwards;
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          transform: translateY(700px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(-1000);
+          opacity: 1;
+        }
+      }
+
+      .move-up {
+        animation: moveUp 1s forwards;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        font-size: 2em;
+      }
+
+      .image-container {
+        margin-bottom: 20px;
+      }
+
+      .main-image {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+      }
+
+      .description {
+        font-size: 1.1em;
+        margin-bottom: 25px;
+      }
+
+      .play-button {
+        padding: 12px 25px;
+        font-size: 1.1em;
+        background-color: rgb(255, 69, 0);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .play-button:hover {
+        background-color: rgb(250, 76, 12);
+        transform: scale(1.05);
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.5em;
+        }
+        .play-button {
+          padding: 10px 20px;
+          font-size: 1em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="game-container">
+      <h1>Credits:</h1>
+      <p class="description">
+        <h3>Github <a href="https://github.com/Lucca2013">repo</a></h3><br>
+        <h3>Website and API made by: <a href="https://github.com/Lucca2013">Lucca Felipetto</a></h3> <br/>
+        <br />
+      </p>
+      <a href="/">Back</a>
+    </div>
+  </body>
+</html>

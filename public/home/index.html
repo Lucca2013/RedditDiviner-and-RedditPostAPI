@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reddit post diviner</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: rgb(255, 69, 0);
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        overflow: hidden;
+      }
+
+      .container {
+        text-align: center;
+        color: #fff;
+        max-width: 90%;
+        width: 600px;
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        border-radius: 15px;
+        position: relative;
+      }
+
+      @keyframes moveUp {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-700px);
+        }
+      }
+
+      .move-up {
+        animation: moveUp 1s forwards;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        font-size: 2em;
+      }
+
+      .image-container {
+        margin-bottom: 20px;
+      }
+
+      .main-image {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+      }
+
+      .description {
+        font-size: 1.1em;
+        margin-bottom: 25px;
+      }
+
+      .play-button {
+        padding: 12px 25px;
+        font-size: 1.1em;
+        background-color: rgb(255, 69, 0);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .play-button:hover {
+        background-color: rgb(250, 76, 12);
+        transform: scale(1.05);
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.5em;
+        }
+        .play-button {
+          padding: 10px 20px;
+          font-size: 1em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="game-container">
+      <h1>Guess which post has more karma.</h1>
+      <div class="image-container">
+        <img
+          src="https://cdn.freebiesupply.com/logos/large/2x/reddit-1-logo-png-transparent.png"
+          alt="Placeholder Image"
+          class="main-image"
+        />
+      </div>
+      <p class="description">
+        <a href="/credits.php">Credits</a>
+      </p>
+      <button class="play-button" id="play-btn">Play</button>
+    </div>
+
+    <script>
+      const container = document.getElementById("game-container");
+      const playBtn = document.getElementById("play-btn");
+
+      playBtn.addEventListener("click", () => {
+        container.classList.add("move-up");
+        setTimeout(() => {
+          window.location.href = "/game.php";
+        }, 850);
+      });
+    </script>
+  </body>
+</html>

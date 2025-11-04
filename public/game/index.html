@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: rgb(255, 69, 0);
+        font-family: "Poppins", Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        text-align: center;
+        color: #fff;
+        max-width: 900px;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.25);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        animation: fadeInUp 0.8s forwards;
+      }
+
+      h1 {
+        margin-bottom: 40px;
+        font-size: 2em;
+        font-weight: 600;
+      }
+
+      .cards {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .card {
+        padding: 20px;
+        border-radius: 15px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transform: translateY(100px);
+        opacity: 0;
+        animation: fadeInUp 0.8s forwards;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+      }
+
+      .card-left {
+        max-width: 45%;
+        background-color: rgba(255, 255, 255, 0.08);
+        animation-delay: 0.1s;
+      }
+
+      .card-right {
+        max-width: 45%;
+        background-color: rgba(255, 255, 255, 0.08);
+        animation-delay: 0.2s;
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          transform: translateY(700px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .card img {
+        width: 100%;
+        height: 300px;
+        object-fit: contain;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .choose-button,
+      .tie-button,
+      #next {
+        padding: 12px 30px;
+        font-size: 1.1em;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .choose-button {
+        background: linear-gradient(135deg, #ff4500, #ff7b00);
+        color: #fff;
+      }
+
+      .choose-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 20px rgba(255, 69, 0, 0.4);
+      }
+
+      .tie-button {
+        background: linear-gradient(135deg, #ffd900, #ffae00);
+        color: #fff;
+        margin-top: 25px;
+      }
+
+      .tie-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 20px rgba(255, 200, 0, 0.5);
+      }
+
+      #next {
+        background: linear-gradient(135deg, #00b09b, #96c93d);
+        color: #fff;
+        margin-top: 30px;
+        font-size: 1.2em;
+      }
+
+      #next:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 200, 100, 0.5);
+      }
+
+      @media (max-width: 768px) {
+        .cards {
+          flex-direction: column;
+          align-items: center;
+        }
+        .card {
+          max-width: 80%;
+        }
+        .card img {
+          height: auto;
+          max-height: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="container">
+      <h1>Which post has more karma?</h1>
+      <div class="cards">
+        <div class="card card-left" id="post1div">
+          <h2 id="title1">Loading...</h2>
+          <p id="minidesc1">Subreddit: Loading... Author: Loading...</p>
+          <img id="post1" alt="Loading" />
+          <button class="choose-button" id="choose1">Choose</button>
+        </div>
+        <div class="card card-right" id="post2div">
+          <h2 id="title2">Loading...</h2>
+          <p id="minidesc2">Subreddit: Loading... Author: Loading...</p>
+          <img id="post2" alt="Loading" />
+          <button class="choose-button" id="choose2">Choose</button>
+        </div>
+      </div>
+      <button class="tie-button" id="choosetie">Tie</button>
+    </div>
+  </body>
+  <script>
+    fetch("/api/pushreddit.php?posts=2&subreddit=funny")
+      .then((response) => {
+        if (!response.ok)
+          throw new Error(`Error in request: ${response.status}`);
+        return response.json();
+      })
+      .then((data) => {
+        document.getElementById("title1").textContent = data.memes[0].title;
+        document.getElementById("title2").textContent = data.memes[1].title;
+
+        document.getElementById(
+          "minidesc1"
+        ).textContent = `Subreddit: ${data.memes[0].subreddit} • Author: ${data.memes[0].author}`;
+        document.getElementById(
+          "minidesc2"
+        ).textContent = `Subreddit: ${data.memes[1].subreddit} • Author: ${data.memes[1].author}`;
+
+        function getPreviewImage(memes) {
+          return (
+            memes.preview?.[3] ||
+            memes.preview?.[4] ||
+            memes.preview?.[5] ||
+            memes.preview?.[2] ||
+            memes.preview?.[1] ||
+            memes.preview?.[0] ||
+            ""
+          );
+        }
+
+        document.getElementById("post1").src = getPreviewImage(data.memes[0]);
+        document.getElementById("post2").src = getPreviewImage(data.memes[1]);
+
+        document.getElementById("choose1").addEventListener("click", () => {
+          if (data.memes[0].ups > data.memes[1].ups) {
+            showResult(true, "post1", data);
+          } else if (data.memes[0].ups < data.memes[1].ups) {
+            showResult(false, "post2", data);
+          } else {
+            showResult(false, "tie", data);
+          }
+        });
+
+        document.getElementById("choose2").addEventListener("click", () => {
+          if (data.memes[1].ups > data.memes[0].ups) {
+            showResult(true, "post2", data);
+          } else if (data.memes[1].ups < data.memes[0].ups) {
+            showResult(false, "post1", data);
+          } else {
+            showResult(false, "tie", data);
+          }
+        });
+
+        document.getElementById("choosetie").addEventListener("click", () => {
+          if (data.memes[1].ups > data.memes[0].ups) {
+            showResult(false, "post2", data);
+          } else if (data.memes[1].ups < data.memes[0].ups) {
+            showResult(false, "post1", data);
+          } else {
+            showResult(true, "tie", data);
+          }
+        });
+      })
+      .catch((error) => console.error(error));
+
+    function showResult(iscorrect, correctSide, data) {
+      const ResultText = document.createElement("h1");
+      ResultText.textContent = iscorrect
+        ? "🎉 Congratulations! You're correct!"
+        : "❌ Oops! Wrong choice.";
+
+      const numbersOfKarma1 = document.createElement("h2");
+      numbersOfKarma1.textContent = `Karma: ${data.memes[0].ups}`;
+
+      const numbersOfKarma2 = document.createElement("h2");
+      numbersOfKarma2.textContent = `Karma: ${data.memes[1].ups}`;
+
+      if (correctSide === "post1") {
+        document.getElementById("post1div").style.backgroundColor = "#109010";
+        document.getElementById("post2div").style.backgroundColor = "#e23b3b";
+      } else if (correctSide === "post2") {
+        document.getElementById("post2div").style.backgroundColor = "#109010";
+        document.getElementById("post1div").style.backgroundColor = "#e23b3b";
+      } else {
+        document.getElementById("post1div").style.backgroundColor = "#d8ca00";
+        document.getElementById("post2div").style.backgroundColor = "#d8ca00";
+      }
+
+      const nextButton = document.createElement("button");
+      nextButton.textContent = "Next ➜";
+      nextButton.id = "next";
+      nextButton.addEventListener("click", () => window.location.reload());
+
+      document.getElementById("container").appendChild(ResultText);
+      document.getElementById("container").appendChild(nextButton);
+      document.getElementById("post1div").appendChild(numbersOfKarma1);
+      document.getElementById("post2div").appendChild(numbersOfKarma2);
+    }
+  </script>
+</html>
