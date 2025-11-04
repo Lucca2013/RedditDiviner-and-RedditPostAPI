@@ -1,1 +1,0 @@
-<?php include __DIR__ . '/public/credits/index.html' ?>
