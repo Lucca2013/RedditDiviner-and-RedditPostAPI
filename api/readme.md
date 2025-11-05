@@ -32,7 +32,7 @@ Response example:
 }
 ```
 ## Customizable Endpoints
-### You can set how many posts you want by adding **?posts=int** in the end. (MAX: 50)
+### You can set how many posts you want by adding ```?posts=int``` in the end. (MAX: 50)
 ```url
 https://reddit-diviner.vercel.app/api/pushreddit.php?posts=2
 ```
@@ -82,7 +82,7 @@ In the example it will return:
 }
 ```
 
-### You can set the subreddit the API will push by adding **?subreddit=sub**
+### You can set the subreddit the API will push by adding ```?subreddit=sub```
 ```url
 https://reddit-diviner.vercel.app/api/pushreddit.php?subreddit=memes
 ```
